@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SnapBook | Admin Dashboard</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link href="admin-dashboard.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">◎</div>
+      <div class="brand-name">SNAPBOOK</div>
+      <small>ADMINISTRATION PANEL</small>
+    </div>
+
+    <nav>
+      <a href="#" class="nav-link active" data-page="overview">
+        <span class="nav-icon">⌂</span>Overview
+      </a>
+
+      <a href="#" class="nav-link" data-page="bookings">
+        <span class="nav-icon">▤</span>Manage Bookings
+      </a>
+
+      <a href="#" class="nav-link" data-page="customers">
+        <span class="nav-icon">♙</span>Customers
+      </a>
+
+      <a href="#" class="nav-link" data-page="packages">
+        <span class="nav-icon">📷</span>Manage Packages
+      </a>
+
+      <a href="#" class="nav-link" data-page="reports">
+        <span class="nav-icon">▥</span>Reports
+      </a>
+    </nav>
+
+    <div class="side-bottom">
+
+      <div class="logout">
+        <a class="nav-link" href="index.html" id="logoutLink">
+          <span class="nav-icon">⇥</span>Logout
+        </a>
+      </div>
+
+      <div class="side-quote">
+        Every moment<br>has a story.
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="topbar-title">
+        Admin Workspace
+      </div>
+
+      <div class="admin-chip">
+        <div class="avatar">♟</div>
+        <span>Administrator</span>
+      </div>
+
+    </header>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <section class="page-section active" id="overview">
+
+        <div class="welcome">
+
+          <div>
+            <div class="eyebrow">SnapBook Studio</div>
+
+            <h1>Good day, Admin.</h1>
+
+            <p>
+              Here's what's happening with your photography business.
+            </p>
+          </div>
+
+          <span class="badge rounded-pill text-bg-light border p-2">
+            Admin overview
+          </span>
+
+        </div>
+
+        <!-- STATISTICS -->
+        <div class="stats">
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span>Total Bookings</span>
+              <span class="stat-icon">▤</span>
+            </div>
+
+            <div class="stat-number" id="totalBookings">0</div>
+
+            <div class="stat-note">
+              Bookings recorded
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span>Pending Requests</span>
+              <span class="stat-icon">◷</span>
+            </div>
+
+            <div class="stat-number" id="pendingBookings">0</div>
+
+            <div class="stat-note">
+              Awaiting confirmation
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span>Total Customers</span>
+              <span class="stat-icon">♙</span>
+            </div>
+
+            <div class="stat-number" id="totalCustomers">0</div>
+
+            <div class="stat-note">
+              Registered customers
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <span>Available Packages</span>
+              <span class="stat-icon">📷</span>
+            </div>
+
+            <div class="stat-number" id="availablePackages">2</div>
+
+            <div class="stat-note">
+              Active service packages
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CHARTS -->
+        <div class="dashboard-grid">
+
+          <div class="panel">
+            <h2>Booking Activity</h2>
+
+            <div class="panel-sub">
+              Monthly bookings based on recorded data
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="bookingChart"></canvas>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Popular Packages</h2>
+
+            <div class="panel-sub">
+              Booking distribution by photography package
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="packageChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RECENT BOOKINGS -->
+        <div class="table-panel mt-4">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="h5 mb-0" style="font-family:'Playfair Display',serif">
+              Recent Bookings
+            </h2>
+
+            <button
+              class="btn btn-sm btn-outline-dark"
+              data-go="bookings">
+              View all
+            </button>
+
+          </div>
+
+          <div class="table-responsive">
+
+            <table class="table">
+
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Package</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody id="recentRows"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- MANAGE BOOKINGS -->
+      <section class="page-section" id="bookings">
+
+        <h1 class="section-title">
+          Manage Bookings
+        </h1>
+
+        <p class="section-sub">
+          Review customer booking requests and update their status.
+        </p>
+
+        <div class="table-panel">
+
+          <div class="table-responsive">
+
+            <table class="table">
+
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Package</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="allBookingRows"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section class="page-section" id="customers">
+
+        <h1 class="section-title">
+          Customers
+        </h1>
+
+        <p class="section-sub">
+          View customers who have registered for SnapBook.
+        </p>
+
+        <div class="table-panel">
+
+          <div class="table-responsive">
+
+            <table class="table">
+
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+
+              <tbody id="customerRows"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- MANAGE PACKAGES -->
+      <section class="page-section" id="packages">
+
+        <h1 class="section-title">
+          Manage Packages
+        </h1>
+
+        <p class="section-sub">
+          Photography services currently offered by SnapBook.
+        </p>
+
+        <div class="table-panel">
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+
+            <div>
+              <h2 class="h5 mb-1" style="font-family:'Playfair Display',serif">
+                Photography Packages
+              </h2>
+
+              <p class="text-muted small mb-0">
+                Add, edit or update the packages available to customers.
+              </p>
+            </div>
+
+            <button type="button" class="btn btn-dark" id="addPackageBtn">
+              <span class="me-1">＋</span> Add New Package
+            </button>
+
+          </div>
+
+          <div class="table-responsive">
+
+            <table class="table align-middle">
+
+              <thead>
+                <tr>
+                  <th>Package</th>
+                  <th>Image</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="packageRows">
+
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-4">
+                    Loading packages...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ADD / EDIT PACKAGE MODAL -->
+      <div class="modal fade" id="packageModal" tabindex="-1" aria-labelledby="packageModalTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+          <div class="modal-content border-0 shadow">
+
+            <form id="packageForm">
+
+              <div class="modal-header">
+
+                <div>
+                  <h2 class="modal-title fs-5" id="packageModalTitle" style="font-family:'Playfair Display',serif">
+                    Add New Package
+                  </h2>
+
+                  <p class="small text-muted mb-0">
+                    Enter the package details below.
+                  </p>
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+              </div>
+
+              <div class="modal-body">
+
+                <input type="hidden" id="packageId">
+
+                <div class="row g-3">
+
+                  <div class="col-md-6">
+
+                    <label for="packageName" class="form-label">
+                      Package Name
+                    </label>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="packageName"
+                      placeholder="e.g. Wedding Session"
+                      maxlength="60"
+                      required>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <label for="packagePrice" class="form-label">
+                      Price (RM)
+                    </label>
+
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="packagePrice"
+                      min="0"
+                      step="0.01"
+                      placeholder="e.g. 800"
+                      required>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <label for="packageDescription" class="form-label">
+                      Description
+                    </label>
+
+                    <textarea
+                      class="form-control"
+                      id="packageDescription"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Describe what this photography package offers..."
+                      required></textarea>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <label for="packageStatus" class="form-label">
+                      Package Status
+                    </label>
+
+                    <select class="form-select" id="packageStatus" required>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+
+                    <div class="form-text">
+                      Inactive packages will not be available for customer booking.
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <label for="packageImage" class="form-label">
+                      Package Image
+                    </label>
+
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="packageImage"
+                      accept="image/*">
+
+                    <div class="form-text">
+                      Choose an image from your computer. Leave empty to keep the current image when editing.
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <label class="form-label d-block">
+                      Image Preview
+                    </label>
+
+                    <div class="border rounded-3 p-2 d-flex align-items-center justify-content-center bg-light" style="min-height:180px">
+
+                      <img
+                        id="packageImagePreview"
+                        src=""
+                        alt="Package image preview"
+                        style="display:none; max-width:100%; max-height:220px; object-fit:contain;">
+
+                      <span id="packageImagePlaceholder" class="small text-muted">
+                        No image selected
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+                    <div id="packageFeedback" class="small" role="status" aria-live="polite"></div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="modal-footer">
+
+                <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+
+                <button type="submit" class="btn btn-dark" id="savePackageBtn">
+                  Save Package
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- REPORTS -->
+      <section class="page-section" id="reports">
+
+        <h1 class="section-title">
+          Reports & Analytics
+        </h1>
+
+        <p class="section-sub">
+          A visual summary of SnapBook booking performance.
+        </p>
+
+        <div class="dashboard-grid">
+
+          <div class="panel">
+
+            <h2>Monthly Bookings</h2>
+
+            <div class="panel-sub">
+              Monthly booking performance
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="reportChart"></canvas>
+            </div>
+
+          </div>
+
+          <div class="panel">
+
+            <h2>Booking Status</h2>
+
+            <div class="panel-sub">
+              Distribution of current booking statuses
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="statusChart"></canvas>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+      <div class="footer-inner">
+
+        <div>
+
+          <div class="footer-brand">
+            SNAPBOOK
+          </div>
+
+          <p class="footer-tagline">
+            Capturing Moments, Creating Memories.
+          </p>
+
+        </div>
+
+        <div>
+
+          <div class="footer-heading">
+            QUICK LINKS
+          </div>
+
+          <div class="footer-links">
+
+            <a href="#" data-page="overview">Overview</a>
+
+            <a href="#" data-page="bookings">Manage Bookings</a>
+
+            <a href="#" data-page="customers">Customers</a>
+
+            <a href="#" data-page="packages">Manage Packages</a>
+
+            <a href="#" data-page="reports">Reports</a>
+
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="footer-heading">
+            ADMIN WORKSPACE
+          </div>
+
+          <p class="footer-contact">
+            Manage customer bookings, review registered customers
+            and monitor your photography services through SnapBook.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 SnapBook. All Rights Reserved.
+      </div>
+
+    </footer>
+
+  </main>
+
+</div>
+
+<script src="admin-dashboard.js"></script>
+
+</body>
+</html>
